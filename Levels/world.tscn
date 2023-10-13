@@ -1,0 +1,152 @@
+[gd_scene load_steps=11 format=3 uid="uid://dc8vio0amcsij"]
+
+[ext_resource type="Material" uid="uid://c633cw2qxv243" path="res://Materials/floor_material.tres" id="1_v755r"]
+[ext_resource type="PackedScene" uid="uid://canq2ojnths1m" path="res://Scenes/Player/camera_rig.tscn" id="1_y13m5"]
+[ext_resource type="Material" uid="uid://cox35fn5o3ftj" path="res://Materials/wall_material.tres" id="2_ve3y0"]
+[ext_resource type="PackedScene" uid="uid://cl6rqfl7xq7u1" path="res://Scenes/Player/player.tscn" id="3_5eyt5"]
+[ext_resource type="Material" uid="uid://b51wveoc73avi" path="res://Materials/cylinder_material.tres" id="3_d2cpi"]
+[ext_resource type="Material" uid="uid://cvkei02fwtavf" path="res://Materials/terminal_material.tres" id="4_axkcw"]
+[ext_resource type="Script" path="res://Levels/auto_hide_wall.gd" id="5_jbapf"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_hbc7j"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_1wioj"]
+sky_material = SubResource("ProceduralSkyMaterial_hbc7j")
+
+[sub_resource type="Environment" id="Environment_bnmyc"]
+background_mode = 2
+sky = SubResource("Sky_1wioj")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="World" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_bnmyc")
+
+[node name="CameraRig" parent="." instance=ExtResource("1_y13m5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 4)
+
+[node name="Player" parent="." instance=ExtResource("3_5eyt5")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 10, 0, 10)
+
+[node name="Map" type="Node3D" parent="."]
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0.5, 13)
+material_override = ExtResource("3_d2cpi")
+radius = 0.3
+height = 1.0
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0.5, -3.7)
+material_override = ExtResource("4_axkcw")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Map/CSGCombiner3D"]
+size = Vector3(0.6, 1, 0.6)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Map/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0.498013, 0.305282)
+operation = 2
+size = Vector3(0.3, 0.3, 0.3)
+
+[node name="Floor" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 5)
+use_collision = true
+size = Vector3(10, 1, 20)
+material = ExtResource("1_v755r")
+
+[node name="Floor2" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -0.5, 5)
+use_collision = true
+size = Vector3(10, 1, 20)
+material = ExtResource("1_v755r")
+
+[node name="Wall1" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 1.5, 5.5)
+layers = 2
+material_override = ExtResource("2_ve3y0")
+use_collision = true
+size = Vector3(1, 3, 8)
+material = ExtResource("1_v755r")
+script = ExtResource("5_jbapf")
+
+[node name="Wall8" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 1.5, 5)
+layers = 2
+material_override = ExtResource("2_ve3y0")
+use_collision = true
+size = Vector3(1, 3, 18)
+material = ExtResource("1_v755r")
+
+[node name="Wall2" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 1.5, 5.5)
+material_override = ExtResource("2_ve3y0")
+use_collision = true
+size = Vector3(1, 3, 19)
+material = ExtResource("1_v755r")
+
+[node name="Wall3" type="CSGBox3D" parent="Map"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5, 1.5, -4.5)
+material_override = ExtResource("2_ve3y0")
+use_collision = true
+size = Vector3(1, 3, 20)
+material = ExtResource("1_v755r")
+
+[node name="Wall4" type="CSGBox3D" parent="Map"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5.5, 1.5, 14.5)
+layers = 2
+material_override = ExtResource("2_ve3y0")
+use_collision = true
+size = Vector3(1, 3, 19)
+material = ExtResource("1_v755r")
+
+[node name="Wall7" type="CSGBox3D" parent="Map"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 9.5, 1.5, 5.5)
+material_override = ExtResource("2_ve3y0")
+use_collision = true
+size = Vector3(1, 3, 9)
+material = ExtResource("1_v755r")
+script = ExtResource("5_jbapf")
+
+[node name="Wall5" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1.5, -2)
+layers = 2
+material_override = ExtResource("2_ve3y0")
+use_collision = true
+size = Vector3(1, 3, 4)
+material = ExtResource("1_v755r")
+script = ExtResource("5_jbapf")
+
+[node name="Wall6" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1.5, 11)
+layers = 2
+material_override = ExtResource("2_ve3y0")
+use_collision = true
+size = Vector3(1, 3, 6)
+material = ExtResource("1_v755r")
+script = ExtResource("5_jbapf")
+
+[node name="Lights" type="Node3D" parent="."]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 3, 1)
+layers = 3
+omni_range = 10.0
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 3, 10)
+layers = 3
+omni_range = 10.0
+
+[node name="OmniLight3D3" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 3, 10)
+layers = 3
+omni_range = 10.0
+
+[node name="OmniLight3D4" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 3, 1)
+layers = 3
+omni_range = 10.0
